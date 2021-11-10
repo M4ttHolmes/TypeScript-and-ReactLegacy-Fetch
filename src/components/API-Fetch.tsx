@@ -6,25 +6,22 @@ type ApiState = {
     long: number,
     city: string,
     temp: number,
-    weather: string
+    weather: string,
+    icon: string
 }
 
-type AcceptedProps = {
-
-}
-
-export default class APIFetch extends Component<AcceptedProps, ApiState> {
-    constructor(props: AcceptedProps) {
+export default class APIFetch extends Component<{}, ApiState> {
+    constructor(props: ApiState) {
         super(props)
         this.state = {
             lat: 0,
             long: 0,
             city: "",
             temp: 0,
-            weather: ""
+            weather: "",
+            icon: ""
         }
     }
-
 
     getLocation = () => {
         navigator.geolocation.getCurrentPosition(
@@ -50,6 +47,7 @@ export default class APIFetch extends Component<AcceptedProps, ApiState> {
                 this.setState({
                     temp: json.main.temp,
                     weather: json.weather[0].description,
+                    icon: json.weather[0].icon,
                     city: json.name
                 })
             })
@@ -57,11 +55,10 @@ export default class APIFetch extends Component<AcceptedProps, ApiState> {
     }
 
     render() {
-
         return(
             <div>
-                <button onClick={this.getLocation}>Find Me</button>
-                <Display lat={this.state.lat} long={this.state.long} city={this.state.city} temp={this.state.temp} weather={this.state.weather}/>
+                <button style={{marginTop: "50px", width: "200px", height: "40px"}} onClick={this.getLocation}>Find Me</button>
+                <Display lat={this.state.lat} long={this.state.long} city={this.state.city} temp={this.state.temp} weather={this.state.weather} icon={this.state.icon}/>
             </div>
         )
     }
